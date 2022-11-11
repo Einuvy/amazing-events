@@ -57,18 +57,16 @@ $form.addEventListener("submit", (evnt) => {
 
     const checked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
         .map(input => input.value);
-    const valueSearch = Array.from(document.querySelectorAll('input[type="search"]'))
-        .map(input => input.value)
-    const stringSearch = valueSearch.toString().toLowerCase();
+    const valueSearch = $form[9]
+    const stringSearch = valueSearch.value.toLowerCase();
     const cardsFiltrated = categoryFilter(events, checked);
     const cardSearched = searchFilter(cardsFiltrated, stringSearch);
-    console.log(cardsFiltrated);
     printCard(cardSearched, divOfCards);
 })
 
 
 const categoryFilter = (events, state) => {
-    const fnFilter = event => state.includes(event.category) || state.length===0;
+    const fnFilter = event => state.includes(event.category) || state.length === 0;
     let filtrated = events.filter(fnFilter);
     return filtrated;
 }
@@ -76,6 +74,5 @@ const categoryFilter = (events, state) => {
 const searchFilter = (events, inputValue) => {
     const fnSearch = evnt => evnt.name.toLowerCase().includes(inputValue);
     let filtrated = events.filter(fnSearch);
-    console.log(filtrated)
     return filtrated;
 }
