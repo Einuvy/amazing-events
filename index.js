@@ -58,7 +58,7 @@ $form.addEventListener("submit", (evnt) => {
     const checked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
         .map(input => input.value);
     const valueSearch = $form[9]
-    const stringSearch = valueSearch.value.toLowerCase();
+    const stringSearch = valueSearch.value.toLowerCase().trim();
     const cardsFiltrated = categoryFilter(events, checked);
     const cardSearched = searchFilter(cardsFiltrated, stringSearch);
     printCard(cardSearched, divOfCards);
