@@ -1,27 +1,20 @@
 const $main = document.querySelector(".main-container");
 const $checkboxContainer = document.querySelector(".checkboxs");
 const $form = document.querySelector(".form-container");
-const events = eventInfo.events;
 
 let divOfCards = document.createElement('div');
 divOfCards.classList.add('d-flex', 'flex-wrap', "justify-content-around", "justify-content-lg-center");
-
-const fnCategory = events => events.category;
-const category = Array.from(new Set(events.map(fnCategory)));
-
 
 const createCheckbox = (value, container) => {
     let template = '';
     value.forEach(value => template += `
     <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" id="" value="${value}" checked autocomplete="off">${value}
+        <input class="form-check-input" type="checkbox" value="${value}">${value}
     </label>
     `);
 
     container.innerHTML = template;
 }
-
-createCheckbox(category, $checkboxContainer)
 
 const createCard = (event) => {
     let divCard = document.createElement('div');
@@ -46,25 +39,6 @@ const printCard = (events, container) => {
     events.forEach(event => divOfCards.appendChild(createCard(event)))
 }
 
-printCard(events, divOfCards);
-$main.appendChild(divOfCards);
-
-let valueSearch;
-
-
-$form.addEventListener("submit", (evnt) => {
-    evnt.preventDefault()
-
-    const checked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
-        .map(input => input.value);
-    const valueSearch = $form[9]
-    const stringSearch = valueSearch.value.toLowerCase().trim();
-    const cardsFiltrated = categoryFilter(events, checked);
-    const cardSearched = searchFilter(cardsFiltrated, stringSearch);
-    printCard(cardSearched, divOfCards);
-})
-
-
 const categoryFilter = (events, state) => {
     const fnFilter = event => state.includes(event.category) || state.length === 0;
     let filtrated = events.filter(fnFilter);
@@ -75,4 +49,34 @@ const searchFilter = (events, inputValue) => {
     const fnSearch = evnt => evnt.name.toLowerCase().includes(inputValue);
     let filtrated = events.filter(fnSearch);
     return filtrated;
+}
+
+fetch('https://amazing-events.herokuapp.com/api/events')
+    .then(respose => respose.json())
+    .then(indexExecution)
+    .catch(error => console.log(error))
+
+
+function indexExecution(data){
+    const eventsInfo = data;
+    const events = eventsInfo.events;
+    const fnCategory = events => events.category;
+    const category = Array.from(new Set(events.map(fnCategory)));
+
+    createCheckbox(category, $checkboxContainer)
+
+    printCard(events, divOfCards);
+    $main.appendChild(divOfCards);
+
+    $form.addEventListener("submit", (evnt) => {
+        evnt.preventDefault()
+    
+        const checked = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+            .map(input => input.value);
+        const valueSearch = $form[9]
+        const stringSearch = valueSearch.value.toLowerCase().trim();
+        const cardsFiltrated = categoryFilter(events, checked);
+        const cardSearched = searchFilter(cardsFiltrated, stringSearch);
+        printCard(cardSearched, divOfCards);
+    })
 }

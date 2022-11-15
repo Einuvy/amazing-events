@@ -139,6 +139,16 @@
     width: 60vw;
     height: 80vh;
 }
+.table-subtitle{
+    width: 20vw;
+    background-color: #787878;
+    color: #111111;
+    border: 1px solid #111111;
+}
+.td-container{
+    width: 20vw;
+    text-align: center;
+}
 @media only screen and (min-width: 300px) and (max-width:1024px){
 
     .top-header-container{

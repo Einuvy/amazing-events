@@ -1,15 +1,21 @@
-const events = eventInfo.events;
 const $main = document.querySelector(".main-container");
 
 const queryString = location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get('id')
 
+fetch('https://amazing-events.herokuapp.com/api/events')
+  .then(respose => respose.json())
+  .then(detailsExecution)
+  .catch(error => console.log(error))
 
-const eventCard = events.find(event => (event._id.toString()) === id)
+function detailsExecution(data){
+    const eventsInfo = data
+    const events = eventsInfo.events;
+    const eventCard = events.find(event => (event._id.toString()) === id)
 
-const $div = document.querySelector(".card");
-$div.innerHTML = `
+    const $div = document.querySelector(".card");
+    $div.innerHTML = `
   <img src="${eventCard.image}" class="card-img-details" alt="...">
   <div class="card-img-overlay d-flex flex-column justify-content-end">
     <h5 class="card-title align-self-center">${eventCard.name}</h5>
@@ -24,3 +30,4 @@ $div.innerHTML = `
     </div>
   </div>
 `
+  }
