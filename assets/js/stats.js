@@ -29,9 +29,11 @@ const pasteventsStatistic = (categories, events) => {
 
         categoriesArray.push(category);
     })
+    console.log(categoriesArray);
     const ordenedCategoriesArray = categoriesArray.sort((a , b) => b.revenues - a.revenues)
     printByCategory($pastTable , ordenedCategoriesArray)
 }
+
 const upcomingeventsStatistic = (categories, events) => {
     let categoriesArray = [];
     categories.forEach((value) => {
@@ -57,13 +59,13 @@ const upcomingeventsStatistic = (categories, events) => {
 }
 
 const eventsStatistics = (event) => {
-    const AttendanceEvents = percentajeDescendent(event);
-    const CapacityEvents = capacityDescendent(event);
-    const highestAttendanceEvents = AttendanceEvents[0]; 
-    const lowerAttendanceEvents = AttendanceEvents[AttendanceEvents.length - 1];
-    const highestCapacityEvents = CapacityEvents[0];
+    const attendanceEvents = percentajeDescendent(event);
+    const capacityEvents = capacityDescendent(event);
+    const highestattendanceEvents = attendanceEvents[0]; 
+    const lowerattendanceEvents = attendanceEvents[attendanceEvents.length - 1];
+    const highestCapacityEvents = capacityEvents[0];
 
-    printEventsStatistics(highestAttendanceEvents, lowerAttendanceEvents, highestCapacityEvents)
+    printEventsStatistics(highestattendanceEvents, lowerattendanceEvents, highestCapacityEvents)
 }
 const printEventsStatistics = (highestAttendance, lowerAttendance, highestCapacity) => {
     $eventsTable.innerHTML = `
@@ -80,7 +82,6 @@ const printEventsStatistics = (highestAttendance, lowerAttendance, highestCapaci
     `
 }
 const printByCategory = (container, categoryArray) => {
-    
     let template = '';
     categoryArray.forEach((_, i) =>{
         template += `
@@ -105,147 +106,13 @@ function pastExecution(data) {
     const events = eventsInfo.events;
     const pastEvents = events.filter(event => event.date < eventsInfo.currentDate);
     const upcomingEvents = events.filter(event => event.date >= eventsInfo.currentDate);
+
     const fnCategory = events => events.category;
-    
     const pastEventsCategory = Array.from(new Set(pastEvents.map(fnCategory)));
     const upcomingEventsCategory = Array.from(new Set(upcomingEvents.map(fnCategory)));
+    console.log(upcomingEventsCategory);
 
     eventsStatistics(pastEvents); 
     pasteventsStatistic(pastEventsCategory, pastEvents);
     upcomingeventsStatistic(upcomingEventsCategory, upcomingEvents)
 }
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    */
-
-/*
-<main class="main-container d-flex flex-column align-items-center justify-content-center">
-        <div class="stat-table-container">
-            <table class="table-container">
-                <thead class="thead-container">
-                    <tr>
-                        <th class="th-container" colspan="3">Events Statistics</th>
-                    </tr>
-                </thead>
-                <tbody class="tbody-container">
-                    <tr>
-                        <td class="td-container">Events with the highest percentaje of attendance</td>
-                        <td class="td-container">Events with the lowest percentaje of attendance</td>
-                        <td class="td-container">Events with larger capacity</td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"> </td>
-                        <td class="td-container"> </td>
-                        <td class="td-container"> </td>
-                    </tr>
-                </tbody>
-            </table>
-
-
-            <table class="table-container">
-                <thead class="thead-container">
-                    <tr>
-                        <th class="th-container" colspan="3">Upcomings Events Statistics by Category</th>
-                    </tr>
-                </thead>
-                <tbody class="tbody-container">
-                    <tr>
-                        <td class="td-container">Categorys</td>
-                        <td class="td-container">Revenues</td>
-                        <td class="td-container">Porcentage of attendance</td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-    
-                </tbody>
-            </table>
-            <table class="table-container">    
-                <thead class="thead-container">
-                    <tr>
-                        <th class="th-container" colspan="3">Past Events Statistics by Category</th>
-                    </tr>
-                </thead>
-                <tbody class="tbody-container">
-                    <tr>
-                        <td class="td-container">Categorys</td>
-                        <td class="td-container">Revenues</td>
-                        <td class="td-container">Porcentage of attendance</td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                    <tr>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                        <td class="td-container"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-*/
